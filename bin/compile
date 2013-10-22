@@ -109,6 +109,15 @@ else
   mkdir -p $CACHE_TARGET_DIR
 fi
 
+
+# pre compile hook
+if [ -f bin/pre_compile ]; then
+    echo "-----> Running pre-compile hook"
+    chmod +x bin/pre_compile
+    bin/pre_compile
+fi
+
+
 echo "-----> Building with Leiningen"
 
 # Calculate build command
@@ -129,6 +138,13 @@ PATH=.lein/bin:$PATH LEIN_JVM_OPTS="-Xmx500m -Duser.home=$BUILD_DIR" \
 if [ "${PIPESTATUS[*]}" != "0 0" ]; then
   echo " !     Failed to build."
   exit 1
+fi
+
+# post compile hook
+if [ -f bin/post_compile ]; then
+    echo "-----> Running post-compile hook"
+    chmod +x bin/post_compile
+    bin/post_compile
 fi
 
 # populate profile.d
