@@ -111,12 +111,13 @@ fi
 
 
 # pre compile hook
+pushd $BUILD_DIR
 if [ -f bin/pre_compile ]; then
     echo "-----> Running pre-compile hook"
     chmod +x bin/pre_compile
     bin/pre_compile
 fi
-
+popd
 
 echo "-----> Building with Leiningen"
 
@@ -169,9 +170,10 @@ if [ "$LEIN_VERSION" = "1.7.1" ]; then
 fi
 
 # post compile hook
+pushd $BUILD_DIR
 if [ -f bin/post_compile ]; then
     echo "-----> Running post-compile hook"
     chmod +x bin/post_compile
     bin/post_compile
 fi
-
+popd
