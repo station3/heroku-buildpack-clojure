@@ -140,13 +140,6 @@ if [ "${PIPESTATUS[*]}" != "0 0" ]; then
   exit 1
 fi
 
-# post compile hook
-if [ -f bin/post_compile ]; then
-    echo "-----> Running post-compile hook"
-    chmod +x bin/post_compile
-    bin/post_compile
-fi
-
 # populate profile.d
 PROFILE_PATH="$BUILD_DIR/.profile.d/clojure.sh"
 mkdir -p $(dirname $PROFILE_PATH)
@@ -174,3 +167,11 @@ fi
 if [ "$LEIN_VERSION" = "1.7.1" ]; then
     rm -rf "$CACHE_TARGET_DIR"
 fi
+
+# post compile hook
+if [ -f bin/post_compile ]; then
+    echo "-----> Running post-compile hook"
+    chmod +x bin/post_compile
+    bin/post_compile
+fi
+
